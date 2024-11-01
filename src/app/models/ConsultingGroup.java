@@ -36,10 +36,18 @@ public class ConsultingGroup implements Printer {
 
     @Override
     public void print(Message message) {
-        if (message.getSender() == null) {
-            System.out.println("Анонімний користувач відправив повідомлення: Вітаю, мені треба допомога");
-        } else if (message.getSender() != null) {
-            System.out.println("Користувач <sender> відправив повідомлення: Як це можна завантажити...?");
+        if (message.getSender() == null && message.getText() == null) {
+            Printer anonymousPrinter = new Printer() {
+                @Override
+                public void print(Message msg) {
+                    System.out.println("Опрацьовується пусте повідомлення від анонімного користувача...");
+                }
+            };
+            anonymousPrinter.print(null);
+        } else if (message.getSender() == null) {
+            System.out.println("Анонімний користувач відправив повідомлення: " + message.getText());
+        } else {
+            System.out.println("Користувач " + message.getSender() + " відправив повідомлення: " + message.getText());
         }
     }
 }
